@@ -1,5 +1,5 @@
-import BarberShopCard from "../../(home)/_components/BarberShopCard";
-import { findManyBarberShops } from "../../_actions/barberShop";
+import BarberShopCard from "../BarberShopCard";
+import { findManyBarberShops } from "../../../_actions/barberShop";
 
 const BarberShopCardList = async () => {
   const barberShops = await findManyBarberShops();
