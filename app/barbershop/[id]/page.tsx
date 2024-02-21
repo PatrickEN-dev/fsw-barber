@@ -1,23 +1,22 @@
 import { findUniqueBarberShop } from "@/app/_actions/barberShop";
-import { useRouter } from "next/router";
 
 interface IBarberShopDetailsPageProps {
   params: {
-    id?: string;
+    id: string;
   };
 }
 
 const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) => {
-  const router = useRouter();
-  if (!params.id) {
-    router.push("/");
+  if (!params.id) return;
 
-    return null;
-  }
+  const barberShop = await findUniqueBarberShop({ id: params.id });
 
-  const barberShop = await findUniqueBarberShop(params.id);
-
-  if (!barberShop) return <h1>Nenhuma barbearia encontrada</h1>;
+  if (!barberShop)
+    return (
+      <h1 className="h-full items-center text-center flex justify-center">
+        Nenhuma barbearia encontrada
+      </h1>
+    );
 
   return (
     <div>

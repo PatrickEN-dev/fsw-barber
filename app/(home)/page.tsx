@@ -6,17 +6,17 @@ import BookingCard from "../_components/BookingCard";
 import BarberShopCardList from "./_components/_componentsLists/BarberShopCardList";
 
 export default function Home() {
+  const newDateFormatted = format(new Date(), "EEEE',' dd 'de' MMMM", {
+    locale: ptBR,
+  });
+
   return (
     <main>
       <Header />
 
       <section className="px-5 pt-5">
         <h2 className="text-xl font-bold">Olá, Miguel</h2>
-        <p className="capitalize text-sm">
-          {format(new Date(), "EEEE',' dd 'de' MMMM", {
-            locale: ptBR,
-          })}
-        </p>
+        <p className="capitalize text-sm">{newDateFormatted}</p>
       </section>
 
       <section className="px-5 mt-6">
