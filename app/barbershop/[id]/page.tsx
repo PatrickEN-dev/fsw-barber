@@ -1,4 +1,5 @@
 import { findUniqueBarberShop } from "@/app/_actions/barberShop";
+import BarberShopInfos from "./_components/BarberShopInfos";
 
 interface IBarberShopDetailsPageProps {
   params: {
@@ -18,11 +19,7 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
       </h1>
     );
 
-  return (
-    <div>
-      <h1>{barberShop.name}</h1>
-    </div>
-  );
+  return <BarberShopInfos barberShop={barberShop} />;
 };
 
 export default BarberShopDetailsPage;
