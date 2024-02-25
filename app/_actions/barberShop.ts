@@ -7,6 +7,9 @@ export const findUniqueBarberShop = async (params: any) => {
     where: {
       id: params.id,
     },
+    include: {
+      Service: true,
+    },
   });
 
   return barberShopData;
