@@ -24,11 +24,11 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
     <div>
       <BarberShopInfos barberShop={barberShop} />
 
-      <div className="px-5 flex flex-col gap-3 py-6">
+      <ul className="px-5 flex flex-col gap-3 py-6">
         {barberShop.Service.map((service) => (
           <BarberShopServiceCard service={service} key={service.id} />
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

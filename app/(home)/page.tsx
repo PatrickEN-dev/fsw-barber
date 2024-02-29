@@ -31,17 +31,17 @@ export default function Home() {
       <section className="px-2 pb-3">
         <h2 className="px-5 text-sm uppercase text-gray-400 font-bold mb-3">Recomendados</h2>
 
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
+        <ul className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
           <BarberShopCardList />
-        </div>
+        </ul>
       </section>
 
       <section className="px-2 pb-3">
         <h2 className="px-5 text-sm uppercase text-gray-400 font-bold mb-3">Populares</h2>
 
-        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
+        <ul className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
           <BarberShopCardList />
-        </div>
+        </ul>
       </section>
     </main>
   );
