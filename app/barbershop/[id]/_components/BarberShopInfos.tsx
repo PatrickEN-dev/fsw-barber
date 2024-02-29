@@ -11,14 +11,14 @@ interface IBarberShopInfosProps {
 }
 
 const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
-  const { back } = useRouter();
+  const { replace } = useRouter();
   return (
     <section>
       <div className="h-[250px] w-full relative">
         <Button
           size={"icon"}
           variant={"outline"}
-          onClick={back}
+          onClick={() => replace("/")}
           className="z-50 absolute top-4 left-4"
         >
           <ChevronLeftIcon />

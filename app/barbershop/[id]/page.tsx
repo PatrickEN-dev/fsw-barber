@@ -1,6 +1,7 @@
 import { findUniqueBarberShop } from "@/app/_actions/barberShop";
 import BarberShopInfos from "./_components/BarberShopInfos";
 import BarberShopServiceCard from "./_components/ServiceCard";
+import { getServerSession } from "next-auth";
 
 interface IBarberShopDetailsPageProps {
   params: {
@@ -9,6 +10,7 @@ interface IBarberShopDetailsPageProps {
 }
 
 const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) => {
+  const session = await getServerSession();
   if (!params.id) return;
 
   const barberShop = await findUniqueBarberShop({ id: params.id });
@@ -26,7 +28,11 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
 
       <ul className="px-5 flex flex-col gap-3 py-6">
         {barberShop.Service.map((service) => (
-          <BarberShopServiceCard service={service} key={service.id} />
+          <BarberShopServiceCard
+            service={service}
+            key={service.id}
+            isAuthenticated={!!session?.user}
+          />
         ))}
       </ul>
     </div>
