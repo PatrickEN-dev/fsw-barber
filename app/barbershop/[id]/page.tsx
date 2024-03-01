@@ -2,6 +2,7 @@ import { findUniqueBarberShop } from "@/app/_actions/barberShop";
 import BarberShopInfos from "./_components/BarberShopInfos";
 import BarberShopServiceCard from "./_components/ServiceCard";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
 
 interface IBarberShopDetailsPageProps {
   params: {
@@ -10,7 +11,7 @@ interface IBarberShopDetailsPageProps {
 }
 
 const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) => {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   if (!params.id) return;
 
   const barberShop = await findUniqueBarberShop({ id: params.id });

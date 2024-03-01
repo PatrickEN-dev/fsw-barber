@@ -1,22 +1,10 @@
-import { db } from "@/app/_lib/prisma";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth, { AuthOptions } from "next-auth";
-import { Adapter } from "next-auth/adapters";
-import GoogleProvider from "next-auth/providers/google";
+import { authOptions } from "@/app/_lib/auth";
+import NextAuth from "next-auth";
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  console.log("Google OAuth credentials not provided");
   throw new Error("Google OAuth credentials not provided");
 }
-
-export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(db) as Adapter,
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-};
 
 const handler = NextAuth(authOptions);
 
