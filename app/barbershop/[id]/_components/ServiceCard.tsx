@@ -45,7 +45,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated }: IServiceCardProps) 
                   onClick={handleVerifyToSignInClick}
                   variant="secondary"
                 />
-                <BookingMenu />
+                <BookingMenu service={service} />
               </Sheet>
             </div>
           </div>
