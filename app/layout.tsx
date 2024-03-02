@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "./_components/Footer";
 import AuthProvider from "./_providers/auth";
+import { LoadingProvider } from "./_providers/loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,10 +19,12 @@ export default function RootLayout({ children }: IChildrenComponent) {
   return (
     <html lang="en">
       <body className={`${inter.className} dark`}>
-        <AuthProvider>
-          {children}
-          <Footer />
-        </AuthProvider>
+        <LoadingProvider>
+          <AuthProvider>
+            {children}
+            <Footer />
+          </AuthProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

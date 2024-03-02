@@ -11,6 +11,8 @@ import ServiceCardDetails from "./ServiceCardDetails";
 import { useSession } from "next-auth/react";
 import { setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../../_actions/saveBooking";
+import { useLoading } from "@/app/_providers/loading";
+import { Loader2 } from "lucide-react";
 
 interface IBookingMenuProps {
   service: Service;
@@ -32,6 +34,7 @@ const BookingMenu = ({
   newDate,
 }: IBookingMenuProps) => {
   const { data } = useSession();
+  const { isLoading, setIsLoading } = useLoading();
   const handleHourClick = (time: string) => setHour(time);
 
   const handleDateClick = (date: Date | undefined) => {
@@ -42,6 +45,7 @@ const BookingMenu = ({
   const timeList = useMemo(() => (date ? generateDayTimeList(date) : []), [date]);
 
   const handleBookingSubmit = async () => {
+    setIsLoading(true);
     try {
       if (!hour || !date || !data?.user)
         return console.error("ERROR: handleBookingSubmit values not founded");
@@ -50,17 +54,16 @@ const BookingMenu = ({
       const intMinutes = Number(hour.split(":")[1]);
       const newDateFormatted = setMinutes(setHours(date, intHours), intMinutes);
 
-      console.log(newDateFormatted);
-
       await saveBooking({
         barbershopId: barbershop.id,
         serviceId: service.id,
         userId: (data.user as any).id,
         date: newDateFormatted,
       });
-      console.log("foi");
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,7 +84,8 @@ const BookingMenu = ({
       </div>
 
       <SheetFooter className="px-5">
-        <Button disabled={!date || !hour} onClick={handleBookingSubmit}>
+        <Button disabled={!date || !hour || isLoading} onClick={handleBookingSubmit}>
+          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Confirmar reserva
         </Button>
       </SheetFooter>
