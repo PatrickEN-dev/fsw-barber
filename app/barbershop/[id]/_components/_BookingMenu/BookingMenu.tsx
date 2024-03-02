@@ -9,10 +9,13 @@ import { Barbershop, Service } from "@prisma/client";
 import { Button } from "@/app/_components/ui/button";
 import ServiceCardDetails from "./ServiceCardDetails";
 import { useSession } from "next-auth/react";
-import { setHours, setMinutes } from "date-fns";
+import { format, setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../../_actions/saveBooking";
 import { useLoading } from "@/app/_providers/loading";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { ptBR } from "date-fns/locale";
+import { useRouter } from "next/navigation";
 
 interface IBookingMenuProps {
   service: Service;
@@ -22,6 +25,8 @@ interface IBookingMenuProps {
   date: Date | undefined;
   setDate: Dispatch<SetStateAction<Date | undefined>>;
   newDate: Date;
+  sheetIsOpen: boolean;
+  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const BookingMenu = ({
@@ -32,7 +37,10 @@ const BookingMenu = ({
   date,
   setDate,
   newDate,
+  sheetIsOpen,
+  setSheetIsOpen,
 }: IBookingMenuProps) => {
+  const { push } = useRouter();
   const { data } = useSession();
   const { isLoading, setIsLoading } = useLoading();
   const handleHourClick = (time: string) => setHour(time);
@@ -44,22 +52,50 @@ const BookingMenu = ({
 
   const timeList = useMemo(() => (date ? generateDayTimeList(date) : []), [date]);
 
+  const validateBookingData = () => {
+    if (!hour || !date || !data?.user) {
+      console.error("ERROR: handleBookingSubmit values not found");
+      return false;
+    }
+    return true;
+  };
+
+  const formatBookingDate = (date: Date, hour: string): Date => {
+    const intHours = Number(hour.split(":")[0]);
+    const intMinutes = Number(hour.split(":")[1]);
+    return setMinutes(setHours(date, intHours), intMinutes);
+  };
+
+  const saveBookingAndNotify = async (newDateFormatted: Date) => {
+    await saveBooking({
+      barbershopId: barbershop.id,
+      serviceId: service.id,
+      userId: (data?.user as any).id,
+      date: newDateFormatted,
+    });
+    setSheetIsOpen(false);
+    setHour(undefined);
+    setDate(undefined);
+
+    toast("Reserva realizada com sucesso!", {
+      description: `${format(newDateFormatted, "'Para' dd 'de' MMMM 'às' HH':'mm'.'", {
+        locale: ptBR,
+      })}`,
+      action: {
+        label: "Visualizar",
+        onClick: () => push("/bookings"),
+      },
+    });
+  };
+
   const handleBookingSubmit = async () => {
     setIsLoading(true);
     try {
-      if (!hour || !date || !data?.user)
-        return console.error("ERROR: handleBookingSubmit values not founded");
+      if (!validateBookingData()) return;
 
-      const intHours = Number(hour.split(":")[0]);
-      const intMinutes = Number(hour.split(":")[1]);
-      const newDateFormatted = setMinutes(setHours(date, intHours), intMinutes);
+      const newDateFormatted = formatBookingDate(date!, hour!);
 
-      await saveBooking({
-        barbershopId: barbershop.id,
-        serviceId: service.id,
-        userId: (data.user as any).id,
-        date: newDateFormatted,
-      });
+      await saveBookingAndNotify(newDateFormatted);
     } catch (error) {
       console.error(error);
     } finally {

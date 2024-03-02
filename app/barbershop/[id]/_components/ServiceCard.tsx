@@ -20,6 +20,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
   const newDate = new Date();
   const [date, setDate] = useState<Date | undefined>(newDate);
   const [hour, setHour] = useState<string | undefined>("");
+  const [sheetIsOpen, setSheetIsOpen] = useState(false);
 
   const handleVerifyToSignInClick = async () =>
     await verifyToSignIn({ value: isAuthenticated, signInValue: "google" });
@@ -44,13 +45,25 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
             <div className="flex items-center justify-between mt-3">
               <p className="text-primary text-sm font-bold">{formatPrice(Number(service.price))}</p>
 
-              <Sheet>
+              <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTriggerButton
                   buttonContent="Reservar"
                   onClick={handleVerifyToSignInClick}
                   variant="secondary"
                 />
-                <BookingMenu {...{ service, barbershop, hour, setHour, date, setDate, newDate }} />
+                <BookingMenu
+                  {...{
+                    service,
+                    barbershop,
+                    hour,
+                    setHour,
+                    date,
+                    setDate,
+                    newDate,
+                    sheetIsOpen,
+                    setSheetIsOpen,
+                  }}
+                />
               </Sheet>
             </div>
           </div>
