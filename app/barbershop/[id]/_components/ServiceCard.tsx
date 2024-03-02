@@ -17,6 +17,10 @@ interface IServiceCardProps {
 }
 
 const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServiceCardProps) => {
+  const newDate = new Date();
+  const [date, setDate] = useState<Date | undefined>(newDate);
+  const [hour, setHour] = useState<string | undefined>("");
+
   const handleVerifyToSignInClick = async () =>
     await verifyToSignIn({ value: isAuthenticated, signInValue: "google" });
 
@@ -46,7 +50,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
                   onClick={handleVerifyToSignInClick}
                   variant="secondary"
                 />
-                <BookingMenu service={service} barbershop={barbershop} />
+                <BookingMenu {...{ service, barbershop, hour, setHour, date, setDate, newDate }} />
               </Sheet>
             </div>
           </div>
