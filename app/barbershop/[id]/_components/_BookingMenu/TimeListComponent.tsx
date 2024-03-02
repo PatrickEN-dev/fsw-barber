@@ -11,6 +11,7 @@ const TimeListComponent = ({ timeList, hour, handleHourClick }: ITimeListCompone
     <ul className="flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden py-6 px-5 border-y border-solid border-secondary mt-2">
       {timeList.map((time, index) => (
         <Button
+          type="button"
           variant={hour === time ? "default" : "outline"}
           className="rounded-full"
           key={index}

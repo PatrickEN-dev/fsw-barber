@@ -33,6 +33,7 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
             service={service}
             key={service.id}
             isAuthenticated={!!session?.user}
+            barbershop={barberShop}
           />
         ))}
       </ul>

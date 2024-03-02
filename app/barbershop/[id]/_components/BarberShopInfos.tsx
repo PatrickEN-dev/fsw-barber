@@ -16,6 +16,7 @@ const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
     <section>
       <div className="h-[250px] w-full relative">
         <Button
+          type="button"
           size={"icon"}
           variant={"outline"}
           onClick={() => replace("/")}
@@ -24,7 +25,12 @@ const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
           <ChevronLeftIcon />
         </Button>
 
-        <Button size={"icon"} variant={"outline"} className="z-50 absolute top-4 right-4">
+        <Button
+          type="button"
+          size={"icon"}
+          variant={"outline"}
+          className="z-50 absolute top-4 right-4"
+        >
           <MenuIcon />
         </Button>
         <Image

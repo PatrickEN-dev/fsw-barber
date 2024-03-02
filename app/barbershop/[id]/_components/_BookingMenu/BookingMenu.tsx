@@ -1,20 +1,20 @@
 "use client";
 
 import CalendarComponent from "@/app/_components/CalendarComponent";
-import { SheetContent, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
+import { SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
 import { useMemo, useState } from "react";
-import { generateDayTimeList } from "../_helpers/hours";
+import { generateDayTimeList } from "../../_helpers/hours";
 import TimeListComponent from "./TimeListComponent";
-import { Card, CardContent } from "@/app/_components/ui/card";
-import { Service } from "@prisma/client";
-import { formatPrice } from "@/app/_utils/formatPrices";
-import ServiceCardDetails from "./serviceCardDetails";
+import { Barbershop, Service } from "@prisma/client";
+import { Button } from "@/app/_components/ui/button";
+import ServiceCardDetails from "./ServiceCardDetails";
 
 interface IBookingMenuProps {
   service: Service;
+  barbershop: Barbershop;
 }
 
-const BookingMenu = ({ service }: IBookingMenuProps) => {
+const BookingMenu = ({ service, barbershop }: IBookingMenuProps) => {
   const today = new Date();
   const [date, setDate] = useState<Date | undefined>(today);
   const [hour, setHour] = useState<string | undefined>("");
@@ -47,9 +47,15 @@ const BookingMenu = ({ service }: IBookingMenuProps) => {
         <TimeListComponent hour={hour} timeList={timeList} handleHourClick={handleHourClick} />
       )}
 
-      <div className="py-6">
-        <ServiceCardDetails service={service} date={date} hour={hour} />
+      <div className="py-6 px-5 border-t border-solid border-secondary">
+        <ServiceCardDetails service={service} date={date} hour={hour} barbershop={barbershop} />
       </div>
+
+      <SheetFooter className="px-5">
+        <Button disabled={!date || !hour} type="button">
+          Confirmar reserva
+        </Button>
+      </SheetFooter>
     </SheetContent>
   );
 };

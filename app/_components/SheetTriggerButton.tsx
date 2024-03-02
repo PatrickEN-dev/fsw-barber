@@ -11,7 +11,7 @@ interface ISheetTriggerButtonProps {
 const SheetTriggerButton = ({ onClick, buttonContent, variant }: ISheetTriggerButtonProps) => {
   return (
     <SheetTrigger asChild>
-      <Button variant={variant} onClick={onClick}>
+      <Button type="button" variant={variant} onClick={onClick}>
         {buttonContent}
       </Button>
     </SheetTrigger>

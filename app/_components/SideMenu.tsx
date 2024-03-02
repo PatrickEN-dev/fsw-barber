@@ -30,7 +30,7 @@ const SideMenu = () => {
             <h2 className="font-bold">{data.user.name}</h2>
           </div>
 
-          <Button variant="secondary" size="icon">
+          <Button type="button" variant="secondary" size="icon">
             <LogOutIcon onClick={handleLogoutClick} />
           </Button>
         </section>
@@ -40,7 +40,12 @@ const SideMenu = () => {
             <UserIcon size={32} />
             <h2 className="font-bold">Olá, faça seu login!</h2>
           </div>
-          <Button variant="secondary" className="w-full justify-start" onClick={handleLoginClick}>
+          <Button
+            type="button"
+            variant="secondary"
+            className="w-full justify-start"
+            onClick={handleLoginClick}
+          >
             <LogInIcon className="mr-2" size={18} />
             Fazer Login
           </Button>
@@ -48,7 +53,7 @@ const SideMenu = () => {
       )}
 
       <section className="flex flex-col gap-3 px-5">
-        <Button variant="outline" className="justify-start" asChild>
+        <Button type="button" variant="outline" className="justify-start" asChild>
           <Link href="/">
             <HomeIcon size={18} className="mr-2" />
             Início
@@ -56,7 +61,7 @@ const SideMenu = () => {
         </Button>
 
         {data?.user && (
-          <Button variant="outline" className="justify-start" asChild>
+          <Button type="button" variant="outline" className="justify-start" asChild>
             <Link href="/bookings">
               <CalendarIcon size={18} className="mr-2" />
               Agendamentos

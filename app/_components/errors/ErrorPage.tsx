@@ -11,7 +11,9 @@ const ErrorPage = ({ reset }: IErrorProps) => {
       </p>
       <p className="mt-2 text-center">ou</p>
       <div className="flex justify-center text-center">
-        <button onClick={reset}>Tente novamente</button>
+        <button type="button" onClick={reset}>
+          Tente novamente
+        </button>
       </div>
     </div>
   );

@@ -14,7 +14,9 @@ export default function Error({ reset }: IErrorProps) {
       <p className="mt-2 text-center">Por favor, tente novamente mais tarde.</p>
       <p className="mt-2 text-center">ou</p>
       <div className="flex justify-center text-center">
-        <button onClick={reset}>Tente novamente agora</button>
+        <button type="button" onClick={reset}>
+          Tente novamente agora
+        </button>
       </div>
     </div>
   );
