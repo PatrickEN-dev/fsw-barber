@@ -2,7 +2,7 @@ import Header from "../_components/Header";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import InputSearch from "./_components/InputSearch";
-import BookingCard from "../_components/BookingCard";
+import BookingCard from "../_components/_Booking/BookingCard";
 import BarberShopCardList from "./_components/_componentsLists/BarberShopCardList";
 
 export default function Home() {
@@ -25,7 +25,7 @@ export default function Home() {
 
       <section className="px-5 mt-6">
         <h2 className="text-sm uppercase text-gray-400 font-bold mb-3">Agendamentos</h2>
-        <BookingCard />
+        {/* <BookingCard booking={booking} /> */}
       </section>
 
       <section className="px-2 pb-3">

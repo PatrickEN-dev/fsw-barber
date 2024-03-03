@@ -6,5 +6,5 @@ export interface IBarberShopCardProps {
 
 export interface IErrorProps {
   error?: Error;
-  reset: () => void;
+  reset?: () => void;
 }
