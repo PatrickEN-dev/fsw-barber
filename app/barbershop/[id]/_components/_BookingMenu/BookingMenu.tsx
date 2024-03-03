@@ -2,10 +2,10 @@
 
 import CalendarComponent from "@/app/_components/CalendarComponent";
 import { SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { generateDayTimeList } from "../../_helpers/hours";
 import TimeListComponent from "./TimeListComponent";
-import { Barbershop, Service } from "@prisma/client";
+import { Barbershop, Booking, Service } from "@prisma/client";
 import { Button } from "@/app/_components/ui/button";
 import ServiceCardDetails from "./ServiceCardDetails";
 import { useSession } from "next-auth/react";
@@ -16,6 +16,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { ptBR } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { getDayBookings } from "../../_actions/getDayBookings";
 
 interface IBookingMenuProps {
   service: Service;
@@ -43,14 +44,50 @@ const BookingMenu = ({
   const { push } = useRouter();
   const { data } = useSession();
   const { isLoading, setIsLoading } = useLoading();
+  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
   const handleHourClick = (time: string) => setHour(time);
+
+  const hourSplitted = hour ? Number(hour?.split(":")[0]) : 0;
+  const minuteSplitted = hour ? Number(hour?.split(":")[1]) : 0;
+
+  useEffect(() => {
+    if (!date) return console.error("Theren't date on useEffect getDayBookings");
+
+    const refreshAvailableHours = async () => {
+      // preciso passar barberId no futuro
+      const dayBookingsData = await getDayBookings(barbershop.id, date);
+      setDayBookings(dayBookingsData);
+    };
+
+    refreshAvailableHours();
+  }, [date]);
 
   const handleDateClick = (date: Date | undefined) => {
     setDate(date);
     setHour(undefined);
   };
 
-  const timeList = useMemo(() => (date ? generateDayTimeList(date) : []), [date]);
+  const timeList = useMemo(
+    () =>
+      date
+        ? generateDayTimeList(date).filter((time) => {
+            const hourSplitted = time ? Number(time?.split(":")[0]) : 0;
+            const minuteSplitted = time ? Number(time?.split(":")[1]) : 0;
+
+            const booking = dayBookings.find((booking) => {
+              const bookingHour = booking.date.getHours();
+              const bookingMinutes = booking.date.getMinutes();
+
+              return bookingHour === hourSplitted && bookingMinutes === minuteSplitted;
+            });
+
+            if (!booking) return true;
+
+            return false;
+          })
+        : [],
+    [date, dayBookings]
+  );
 
   const validateBookingData = () => {
     if (!hour || !date || !data?.user) {
@@ -60,11 +97,8 @@ const BookingMenu = ({
     return true;
   };
 
-  const formatBookingDate = (date: Date, hour: string): Date => {
-    const intHours = Number(hour.split(":")[0]);
-    const intMinutes = Number(hour.split(":")[1]);
-    return setMinutes(setHours(date, intHours), intMinutes);
-  };
+  const formatBookingDate = (date: Date, hour: string): Date =>
+    setMinutes(setHours(date, hourSplitted), minuteSplitted);
 
   const saveBookingAndNotify = async (newDateFormatted: Date) => {
     await saveBooking({
@@ -110,7 +144,7 @@ const BookingMenu = ({
       </SheetHeader>
 
       <div className="py-6">
-        <CalendarComponent {...{ date, setDate: setDate, newDate, handleDateClick }} />
+        <CalendarComponent {...{ date, setDate, newDate, handleDateClick }} />
       </div>
 
       {date && <TimeListComponent {...{ hour, timeList, handleHourClick }} />}
