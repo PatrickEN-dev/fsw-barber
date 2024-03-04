@@ -12,6 +12,9 @@ export const findConfirmedBookings = async (userId: string) => {
           gte: new Date(),
         },
       },
+      orderBy: {
+        date: "desc",
+      },
       include: {
         service: true,
         barbershop: true,
@@ -31,6 +34,9 @@ export const findFinishedBookings = async (userId: string) => {
         date: {
           lt: new Date(),
         },
+      },
+      orderBy: {
+        date: "desc",
       },
       include: {
         service: true,
