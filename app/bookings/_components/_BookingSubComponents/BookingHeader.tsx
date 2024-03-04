@@ -1,5 +1,5 @@
+import { Badge } from "@/app/_components/ui/badge";
 import { Booking } from "@prisma/client";
-import { Badge } from "../../ui/badge";
 import { isFuture } from "date-fns";
 
 interface BookingHeaderProps {

@@ -3,9 +3,8 @@
 import React from "react";
 import Image from "next/image";
 import { IBookingBarberShopServiceProps } from "../interfaces";
-import { Card, CardContent } from "../../ui/card";
-import { Avatar, AvatarImage } from "../../ui/avatar";
-import { redirect } from "next/navigation";
+import { Card, CardContent } from "@/app/_components/ui/card";
+import { Avatar, AvatarImage } from "@/app/_components/ui/avatar";
 
 const BookingLocationMap = ({ booking }: IBookingBarberShopServiceProps) => {
   const { name, imageUrl, address, id } = booking.barbershop;

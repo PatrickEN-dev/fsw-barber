@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/_components/ui/avatar";
 import { IBookingBarberShopServiceProps } from "../interfaces";
 
 const BookingBarberShopProfile = ({ booking }: IBookingBarberShopServiceProps) => {

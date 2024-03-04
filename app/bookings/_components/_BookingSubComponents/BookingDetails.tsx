@@ -1,8 +1,8 @@
 import { Barbershop, Booking, Service } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Card, CardContent } from "../../ui/card";
 import { formatPrice } from "@/app/_utils/formatPrices";
+import { Card, CardContent } from "@/app/_components/ui/card";
 
 interface BookingInfoProps {
   booking: Partial<Pick<Booking, "date">> & {

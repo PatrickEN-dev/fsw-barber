@@ -1,5 +1,11 @@
-import { Card, CardContent } from "../ui/card";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Card, CardContent } from "@/app/_components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/app/_components/ui/sheet";
 import BookingBarberShopProfile from "./_BookingSubComponents/BookingBarbershopProfile";
 import BookingBody from "./_BookingSubComponents/BookingBody";
 import BookingDetails from "./_BookingSubComponents/BookingDetails";

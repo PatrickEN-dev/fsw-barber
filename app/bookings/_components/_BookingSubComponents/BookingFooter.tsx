@@ -1,17 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { AlertDialog, AlertDialogTrigger } from "../../ui/alert-dialog";
-import { Button } from "../../ui/button";
 import { cancelBooking } from "@/app/_actions/booking";
-import { SheetClose, SheetFooter } from "../../ui/sheet";
+
 import { toast } from "sonner";
 import { IBookingProps } from "../interfaces";
 import AlertBookingCancelDialog from "../_Modals/AlertBookingCancelDialog";
 import { isFuture } from "date-fns";
+import { SheetClose, SheetFooter } from "@/app/_components/ui/sheet";
+import { Button } from "@/app/_components/ui/button";
+import { AlertDialog, AlertDialogTrigger } from "@/app/_components/ui/alert-dialog";
 
 const BookingFooter = ({ booking }: IBookingProps) => {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const isBookingConfirmed = isFuture(booking.date);
 
   const handleCancelClick = async () => {

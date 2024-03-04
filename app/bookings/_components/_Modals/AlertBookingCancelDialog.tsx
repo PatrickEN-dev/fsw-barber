@@ -7,7 +7,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "../../ui/alert-dialog";
+} from "@/app/_components/ui/alert-dialog";
 
 interface IAlertBookingCancelDialogProps {
   isDeleteLoading: boolean;
