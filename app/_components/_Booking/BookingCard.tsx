@@ -1,31 +1,55 @@
 import { Card, CardContent } from "../ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import BookingBarberShopProfile from "./_BookingSubComponents/BookingBarbershopProfile";
+import BookingBody from "./_BookingSubComponents/BookingBody";
+import BookingDetails from "./_BookingSubComponents/BookingDetails";
+import BookingFooter from "./_BookingSubComponents/BookingFooter";
+import BookingHeader from "./_BookingSubComponents/BookingHeader";
+import BookingLocationMap from "./_BookingSubComponents/BookingLocationMap";
+import { IBookingBarberShopServiceProps } from "./interfaces";
 
-import BookingHeader from "./BookingHeader";
-import BookingBody from "./BookingBody";
-import BookingFooter from "./BookingFooter";
-import { Booking } from "@prisma/client";
+const BookingCard = ({ booking }: IBookingBarberShopServiceProps) => {
+  const { name } = booking.service;
 
-interface BookingCardProps {
-  booking: Booking;
-}
-
-const BookingCard = ({ booking }: BookingCardProps) => {
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Card className="min-w-full">
           <CardContent className="py-0 flex px-0">
-            {/* <BookingHeader isBookingConfirmed={booking.isFuture} /> */}
-            <BookingBody booking={booking} />
+            <header className="flex flex-col gap-2 py-5 flex-[3] pl-5">
+              <BookingHeader {...{ booking }} />
+              <h2 className="font-bold">{name}</h2>
+              <div className="flex items-center gap-2">
+                <BookingBarberShopProfile {...{ booking }} />
+              </div>
+            </header>
+            <div className="flex flex-col items-center justify-center flex-1 border-l border-solid border-secondary">
+              <BookingBody {...{ booking }} />
+            </div>
           </CardContent>
         </Card>
       </SheetTrigger>
 
       <SheetContent className="px-0">
-        {/* <BookingHeader isBookingConfirmed={booking.isFuture} /> */}
-        <BookingBody booking={booking} />
-        <BookingFooter booking={booking} />
+        <SheetHeader className="px-5 text-left pb-6 border-b border-solid border-secondary">
+          <SheetTitle>Informações da Reserva</SheetTitle>
+        </SheetHeader>
+
+        <div className="px-5">
+          <BookingLocationMap {...{ booking }} />
+
+          <div className="mt-6">
+            <BookingHeader {...{ booking }} />
+          </div>
+
+          <div className="mt-7">
+            <BookingDetails {...{ booking }} />
+          </div>
+
+          <div className="mt-10">
+            <BookingFooter {...{ booking }} />
+          </div>
+        </div>
       </SheetContent>
     </Sheet>
   );
