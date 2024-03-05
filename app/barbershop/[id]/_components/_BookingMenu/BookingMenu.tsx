@@ -60,7 +60,7 @@ const BookingMenu = ({
     };
 
     refreshAvailableHours();
-  }, [date]);
+  }, [date, barbershop.id]);
 
   const handleDateClick = (date: Date | undefined) => {
     setDate(date);

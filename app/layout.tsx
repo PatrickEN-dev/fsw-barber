@@ -1,6 +1,3 @@
-export const barbershopDescription =
-  "Uma barbearia acolhedora e moderna, oferecendo serviços de corte de cabelo, barba e cuidados masculinos e femininos.";
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -13,7 +10,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "FSW-BarberShop",
-  description: barbershopDescription,
+  description:
+    "Uma barbearia acolhedora e moderna, oferecendo serviços de corte de cabelo, barba e cuidados masculinos e femininos.",
 };
 
 export default function RootLayout({ children }: IChildrenComponent) {
