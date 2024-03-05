@@ -6,13 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "prisma generate"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@auth/prisma-adapter": "^1.4.0",
+    "@auth/prisma-adapter": "^1.5.0",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "5.9.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -38,10 +39,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^20.11.21",
-    "@types/react": "^18.2.60",
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.62",
     "@types/react-dom": "^18.2.19",
-    "autoprefixer": "^10.4.17",
+    "autoprefixer": "^10.4.18",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.1.0",
     "postcss": "^8.4.35",

@@ -5,7 +5,7 @@ import { IErrorProps } from "../_types/barbershop.interfaces";
 
 export default function Error({ reset }: IErrorProps) {
   return (
-    <div className="px-4">
+    <section className="px-4">
       <ErrorMessage firstMessage={"Ops! O sistema está temporariamente fora do ar."} />
       <p className="mt-4 text-center">
         Pedimos desculpas pelo inconveniente. O desenvolvedor está ciente do problema e já está
@@ -18,6 +18,6 @@ export default function Error({ reset }: IErrorProps) {
           Tente novamente agora
         </button>
       </div>
-    </div>
+    </section>
   );
 }
