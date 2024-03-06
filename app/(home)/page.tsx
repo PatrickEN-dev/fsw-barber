@@ -1,13 +1,13 @@
 import Header from "../_components/Header";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import InputSearch from "./_components/InputSearch";
 import BookingCard from "../bookings/_components/BookingCard";
 import BarberShopCard from "./_components/BarberShopCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { Barbershop } from "@prisma/client";
 import { db } from "../_lib/prisma";
+import InputSearch from "../_components/InputSearch";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -50,7 +50,9 @@ export default async function Home() {
         </p>
       </section>
 
-      <section className="px-5 mt-6">{/* <InputSearch /> */}</section>
+      <section className="px-5 mt-6">
+        <InputSearch placeholderInput="Pesquise por uma barbearia..." />
+      </section>
 
       <section className="mt-6">
         {confirmedBookings.length > 0 && (

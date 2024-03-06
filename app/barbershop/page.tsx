@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Header from "../_components/Header";
-import InputSearch from "../(home)/_components/InputSearch";
+import InputSearch from "../_components/InputSearch";
 import BarberShopCard from "../(home)/_components/BarberShopCard";
 import { findAllBarbershops } from "../_actions/barberShop";
 
@@ -24,6 +24,7 @@ const BarbershopsPage = async ({ searchParams }: IBarbershopsPageProps) => {
           defaultValues={{
             search: searchParams.search,
           }}
+          placeholderInput="Pesquise por uma barbearia..."
         />
 
         <h1 className="text-gray-400 font-bold text-xs uppercase">

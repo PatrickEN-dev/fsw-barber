@@ -5,17 +5,17 @@ import { db } from "../_lib/prisma";
 export const findAllBarbershops = async (term?: string) => {
   try {
     return term
-      ? await db.barbershop.findMany({})
-      : await db.barbershop.findMany({
+      ? await db.barbershop.findMany({
           where: {
             name: {
               contains: term,
               mode: "insensitive",
             },
           },
-        });
+        })
+      : await db.barbershop.findMany({});
   } catch (error) {
-    console.error("Error while fetching barber shops:", error);
+    console.error("Erro ao buscar barbearias:", error);
     throw error;
   }
 };

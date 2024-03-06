@@ -1,28 +1,28 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { SearchIcon } from "lucide-react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { FormControl, FormField, FormItem, FormMessage } from "@/app/_components/ui/form";
 
 const formSchema = z.object({
   search: z
     .string({
       required_error: "Campo obrigatório.",
     })
-    .trim()
-    .min(1, "Campo obrigatório."),
+    .trim(),
 });
 
 interface SearchProps {
   defaultValues?: z.infer<typeof formSchema>;
+  placeholderInput: string;
 }
 
-const InputSearch = ({ defaultValues }: SearchProps) => {
+const InputSearch = ({ defaultValues, placeholderInput }: SearchProps) => {
   const { push } = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,7 +31,7 @@ const InputSearch = ({ defaultValues }: SearchProps) => {
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    push(`/barbershops?search=${data.search}`);
+    push(`/barbershop?search=${data.search}`);
   };
 
   return (
@@ -44,7 +44,7 @@ const InputSearch = ({ defaultValues }: SearchProps) => {
             render={({ field }: any) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Busque por uma barbearia..." {...field} />
+                  <Input placeholder={String(placeholderInput)} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
