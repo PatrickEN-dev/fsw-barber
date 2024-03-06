@@ -27,17 +27,25 @@ const BarbershopsPage = async ({ searchParams }: IBarbershopsPageProps) => {
           placeholderInput="Pesquise por uma barbearia..."
         />
 
-        <h1 className="text-gray-400 font-bold text-xs uppercase">
-          Resultados para &quot;{searchParams.search}&quot;
-        </h1>
+        {barbershops.length === 0 ? (
+          <section className="text-center items-center">
+            <p>Nenhuma barbearia encontrada.</p>
+          </section>
+        ) : (
+          <>
+            <h1 className="text-gray-400 font-bold text-xs uppercase">
+              Resultados para &quot;{searchParams.search}&quot;
+            </h1>
 
-        <ul className="grid grid-cols-2 gap-4">
-          {barbershops.map((barbershop) => (
-            <li key={barbershop.id} className="w-full">
-              <BarberShopCard barberShop={barbershop} />
-            </li>
-          ))}
-        </ul>
+            <ul className="grid grid-cols-2 gap-4">
+              {barbershops.map((barbershop) => (
+                <li key={barbershop.id} className="w-full">
+                  <BarberShopCard barberShop={barbershop} />
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </section>
     </>
   );
