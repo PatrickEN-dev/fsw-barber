@@ -51,6 +51,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
                   onClick={handleVerifyToSignInClick}
                   variant="secondary"
                 />
+
                 <BookingMenu
                   {...{
                     service,

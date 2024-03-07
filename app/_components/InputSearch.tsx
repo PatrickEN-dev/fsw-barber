@@ -35,16 +35,20 @@ const InputSearch = ({ defaultValues, placeholderInput }: SearchProps) => {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center">
       <Form {...form}>
-        <form className="flex w-full gap-4" onSubmit={form.handleSubmit(handleSubmit)}>
+        <form className="flex w-full item-center" onSubmit={form.handleSubmit(handleSubmit)}>
           <FormField
             control={form.control}
             name="search"
             render={({ field }: any) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder={String(placeholderInput)} {...field} />
+                  <Input
+                    placeholder={String(placeholderInput)}
+                    {...field}
+                    className="border-r-none"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

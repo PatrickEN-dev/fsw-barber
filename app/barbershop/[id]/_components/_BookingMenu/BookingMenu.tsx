@@ -138,12 +138,12 @@ const BookingMenu = ({
   };
 
   return (
-    <SheetContent className="p-0">
+    <SheetContent className="p-0 max-h-[100vh] overflow-auto pb-4">
       <SheetHeader className="text-left px-5 py-6 border-solid border-secondary">
         <SheetTitle>Fazer reserva</SheetTitle>
       </SheetHeader>
 
-      <div className="py-6">
+      <div className="py-1">
         <CalendarComponent {...{ date, setDate, newDate, handleDateClick }} />
       </div>
 
