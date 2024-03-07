@@ -20,7 +20,7 @@ const ServiceCardDetails = ({ service, date, hour, barbershop }: IServiceCardDet
         <section className="flex flex-col mb-2">
           <div className="flex justify-between">
             <h2 className="font-bold">{service.name}</h2>
-            <h3 className="font-bold">{formatPrice(Number(service.price))}</h3>
+            <h3 className="font-bold">{formatPrice(String(service.price))}</h3>
           </div>
 
           {date && (

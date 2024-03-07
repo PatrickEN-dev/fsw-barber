@@ -43,7 +43,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
             <p className="text-sm text-gray-400">{service.description}</p>
 
             <div className="flex items-center justify-between mt-3">
-              <p className="text-primary text-sm font-bold">{formatPrice(Number(service.price))}</p>
+              <p className="text-primary text-sm font-bold">{formatPrice(String(service.price))}</p>
 
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTriggerButton

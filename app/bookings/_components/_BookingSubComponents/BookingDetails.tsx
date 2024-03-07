@@ -18,7 +18,7 @@ const BookingDetails = ({ booking }: BookingInfoProps) => {
       <CardContent className="p-3 gap-3 flex flex-col">
         <section className="flex justify-between">
           <h2 className="font-bold">{service.name}</h2>
-          <h3 className="font-bold text-sm">{formatPrice(Number(service.price))}</h3>
+          <h3 className="font-bold text-sm">{formatPrice(String(service.price))}</h3>
         </section>
 
         {date && (
