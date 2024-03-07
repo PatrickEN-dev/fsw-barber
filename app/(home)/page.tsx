@@ -93,25 +93,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   try {
-//     const data = await getHomePageData();
-//     return {
-//       props: {
-//         barbershops: data.barbershops,
-//         confirmedBookings: data.confirmedBookings,
-//         recommendedBarbershops: data.recommendedBarbershops,
-//       },
-//     };
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     return {
-//       props: {
-//         barbershops: [],
-//         confirmedBookings: [],
-//         recommendedBarbershops: [],
-//       },
-//     };
-//   }
-// };
