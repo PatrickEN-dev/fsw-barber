@@ -5,6 +5,8 @@ import Footer from "./_components/Footer";
 import AuthProvider from "./_providers/auth";
 import { LoadingProvider } from "./_providers/loading";
 import { Toaster } from "./_components/ui/sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +27,8 @@ export default function RootLayout({ children }: IChildrenComponent) {
             <Toaster />
           </AuthProvider>
         </LoadingProvider>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
