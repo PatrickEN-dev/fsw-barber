@@ -1,10 +1,9 @@
 import { findUniqueBarberShop } from "@/app/_actions/barberShop";
 import BarberShopInfos from "./_components/BarberShopInfos";
-import BarberShopServiceCard from "./_components/ServiceCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/_lib/auth";
-import { Service } from "@prisma/client";
 import { redirect } from "next/navigation";
+import BarbershopServiceCardList from "./_components/_ServiceCardComponents/BarbershopServiceCardList";
 
 interface IBarberShopDetailsPageProps {
   params: {
@@ -27,18 +26,9 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
 
   return (
     <div>
-      <BarberShopInfos barberShop={barberShop} />
+      <BarberShopInfos barbershopData={barberShop} />
 
-      <ul className="px-5 flex flex-col gap-3 py-6">
-        {barberShop.Service.map((service: Service) => (
-          <BarberShopServiceCard
-            service={service}
-            key={service.id}
-            isAuthenticated={!!session?.user}
-            barbershop={barberShop}
-          />
-        ))}
-      </ul>
+      <BarbershopServiceCardList barbershopData={barberShop} session={session!} />
     </div>
   );
 };

@@ -4,14 +4,13 @@ import { Button } from "@/app/_components/ui/button";
 import { Barbershop } from "@prisma/client";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface IBarberShopInfosProps {
-  barberShop: Barbershop;
+  barbershopData?: Barbershop;
 }
 
-const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
-  const { replace } = useRouter();
+const BarberShopInfos = ({ barbershopData }: IBarberShopInfosProps) => {
   return (
     <section>
       <div className="h-[250px] w-full relative">
@@ -19,7 +18,7 @@ const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
           type="button"
           size={"icon"}
           variant={"outline"}
-          onClick={() => replace("/")}
+          onClick={() => <Link replace href={"/"} />}
           className="z-50 absolute top-4 left-4"
         >
           <ChevronLeftIcon />
@@ -34,20 +33,20 @@ const BarberShopInfos = ({ barberShop }: IBarberShopInfosProps) => {
           <MenuIcon />
         </Button>
         <Image
-          src={barberShop.imageUrl}
-          alt={barberShop.name}
+          src={barbershopData?.imageUrl as any}
+          alt={barbershopData?.name as any}
           fill
           className="object-cover opacity-75"
         />
-        <h1>{barberShop.name}</h1>
+        <h1>{barbershopData?.name}</h1>
       </div>
 
       <div className="px-5 pt-3 pb-6 border-b border-solid border-secondary">
-        <h1 className="text-xl font-bold">{barberShop.name}</h1>
+        <h1 className="text-xl font-bold">{barbershopData?.name}</h1>
 
         <div className="flex item-center gap-1 mt-2">
           <MapPinIcon className="text-primary" size={18} />
-          <p className="text-sm">{barberShop.address}</p>
+          <p className="text-sm">{barbershopData?.address}</p>
         </div>
 
         <div className="flex item-center gap-1 mt-2">

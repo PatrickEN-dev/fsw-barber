@@ -1,14 +1,14 @@
 "use client";
 
-import SheetTriggerButton from "@/app/_components/SheetTriggerButton";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Sheet } from "@/app/_components/ui/sheet";
 import { formatPrice } from "@/app/_utils/formatPrices";
 import verifyToSignIn from "@/app/_utils/verifyAuthentication";
 import { Barbershop, Service } from "@prisma/client";
 import Image from "next/image";
-import BookingMenu from "./_BookingMenu/BookingMenu";
 import { useState } from "react";
+import BookingMenu from "../_BookingMenu/BookingMenu";
+import { Checkbox } from "@/app/_components/ui/checkbox";
 
 interface IServiceCardProps {
   service: Service;
@@ -42,15 +42,11 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
             <h2 className="font-bold">{service.name}</h2>
             <p className="text-sm text-gray-400">{service.description}</p>
 
-            <div className="flex items-center justify-between mt-3">
+            <section className="flex items-center justify-between mt-3">
               <p className="text-primary text-sm font-bold">{formatPrice(String(service.price))}</p>
 
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
-                <SheetTriggerButton
-                  buttonContent="Reservar"
-                  onClick={handleVerifyToSignInClick}
-                  variant="secondary"
-                />
+                <Checkbox />
 
                 <BookingMenu
                   {...{
@@ -66,7 +62,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
                   }}
                 />
               </Sheet>
-            </div>
+            </section>
           </div>
         </div>
       </CardContent>
