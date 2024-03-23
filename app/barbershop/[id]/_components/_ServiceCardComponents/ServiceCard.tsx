@@ -3,27 +3,28 @@
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Sheet } from "@/app/_components/ui/sheet";
 import { formatPrice } from "@/app/_utils/formatPrices";
-import verifyToSignIn from "@/app/_utils/verifyAuthentication";
 import { Barbershop, Service } from "@prisma/client";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import BookingMenu from "../_BookingMenu/BookingMenu";
 import { Checkbox } from "@/app/_components/ui/checkbox";
 
 interface IServiceCardProps {
   service: Service;
-  isAuthenticated: boolean;
   barbershop: Barbershop;
+  sheetIsOpen: boolean;
+  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServiceCardProps) => {
+const BarberShopServiceCard = ({
+  service,
+  barbershop,
+  sheetIsOpen,
+  setSheetIsOpen,
+}: IServiceCardProps) => {
   const newDate = new Date();
   const [date, setDate] = useState<Date | undefined>(newDate);
   const [hour, setHour] = useState<string | undefined>("");
-  const [sheetIsOpen, setSheetIsOpen] = useState(false);
-
-  const handleVerifyToSignInClick = async () =>
-    await verifyToSignIn({ value: isAuthenticated, signInValue: "google" });
 
   return (
     <Card>
