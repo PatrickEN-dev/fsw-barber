@@ -5,22 +5,23 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface IServiceCardDetails {
-  service: Service;
+  services: Service[];
   date: Date | undefined;
   hour: string | undefined;
   barbershop: Barbershop;
 }
 
-const ServiceCardDetails = ({ service, date, hour, barbershop }: IServiceCardDetails) => {
+const ServiceCardDetails = ({ services, date, hour, barbershop }: IServiceCardDetails) => {
   const formattedDate = date ? format(date, "dd 'de' MMMM", { locale: ptBR }) : undefined;
+  const totalServicePrice = services.reduce((total, service) => total + Number(service.price), 0);
 
   return (
     <Card>
       <CardContent className="p-3 flex flex-col">
         <section className="flex flex-col mb-2">
           <div className="flex justify-between">
-            <h2 className="font-bold">{service.name}</h2>
-            <h3 className="font-bold">{formatPrice(String(service.price))}</h3>
+            <h2 className="font-bold">{services.map((service) => service.name)}</h2>
+            <h3 className="font-bold">{formatPrice(String(totalServicePrice))}</h3>
           </div>
 
           {date && (

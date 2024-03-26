@@ -19,6 +19,7 @@ const BarbershopServiceCardList = ({
   barbershopData,
 }: IBarbershopServiceCardListProps) => {
   const [sheetIsOpen, setSheetIsOpen] = useState(false);
+  const [selectedServices, setSelectedServices] = useState<Service[]>([]);
 
   const handleVerifyToSignInClick = async () =>
     await verifyToSignIn({ value: !!session?.user, signInValue: "google" });
@@ -26,6 +27,16 @@ const BarbershopServiceCardList = ({
   const handleBookingCLick = async () => {
     await handleVerifyToSignInClick();
     setSheetIsOpen(true);
+  };
+
+  const handleServiceSelect = (selectedService: Service | undefined, currentService: Service) => {
+    setSelectedServices((prevSelectedServices) => {
+      if (selectedService) {
+        return [...prevSelectedServices, selectedService];
+      } else {
+        return prevSelectedServices.filter((s) => s.id !== currentService.id);
+      }
+    });
   };
 
   return (
@@ -36,12 +47,13 @@ const BarbershopServiceCardList = ({
             service={service}
             key={service.id}
             barbershop={barbershopData}
-            {...{ sheetIsOpen, setSheetIsOpen }}
+            {...{ sheetIsOpen, setSheetIsOpen, selectedServices }}
+            onServiceSelect={handleServiceSelect}
           />
         ))}
       </ul>
 
-      <div className="items-center w-full flex justify-center">
+      <div className="items-center w-full flex justify-center pb-8 pt-2">
         <Button className="w-56" type="button" onClick={handleBookingCLick}>
           Reservar
         </Button>

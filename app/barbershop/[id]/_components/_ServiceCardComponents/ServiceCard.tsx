@@ -14,6 +14,8 @@ interface IServiceCardProps {
   barbershop: Barbershop;
   sheetIsOpen: boolean;
   setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
+  onServiceSelect: (selectedService: Service | undefined, currentService: Service) => void;
+  selectedServices: Service[];
 }
 
 const BarberShopServiceCard = ({
@@ -21,10 +23,20 @@ const BarberShopServiceCard = ({
   barbershop,
   sheetIsOpen,
   setSheetIsOpen,
+  onServiceSelect,
+  selectedServices,
 }: IServiceCardProps) => {
   const newDate = new Date();
   const [date, setDate] = useState<Date | undefined>(newDate);
   const [hour, setHour] = useState<string | undefined>("");
+
+  const handleCheckboxChange = (isChecked: boolean) => {
+    if (isChecked) {
+      onServiceSelect(service, service);
+    } else {
+      onServiceSelect(undefined, service);
+    }
+  };
 
   return (
     <Card>
@@ -36,6 +48,7 @@ const BarberShopServiceCard = ({
               src={service.imageUrl}
               fill
               alt={service.name}
+              sizes="100vw"
             />
           </div>
 
@@ -47,20 +60,17 @@ const BarberShopServiceCard = ({
               <p className="text-primary text-sm font-bold">{formatPrice(String(service.price))}</p>
 
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
-                <Checkbox />
-
+                <Checkbox onCheckedChange={handleCheckboxChange} />
                 <BookingMenu
-                  {...{
-                    service,
-                    barbershop,
-                    hour,
-                    setHour,
-                    date,
-                    setDate,
-                    newDate,
-                    sheetIsOpen,
-                    setSheetIsOpen,
-                  }}
+                  services={selectedServices}
+                  barbershop={barbershop}
+                  hour={hour}
+                  setHour={setHour}
+                  date={date}
+                  setDate={setDate}
+                  newDate={newDate}
+                  sheetIsOpen={sheetIsOpen}
+                  setSheetIsOpen={setSheetIsOpen}
                 />
               </Sheet>
             </section>

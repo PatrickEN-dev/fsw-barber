@@ -37,6 +37,7 @@ const BarberShopInfos = ({ barbershopData }: IBarberShopInfosProps) => {
           alt={barbershopData?.name as any}
           fill
           className="object-cover opacity-75"
+          sizes="100vw"
         />
         <h1>{barbershopData?.name}</h1>
       </div>

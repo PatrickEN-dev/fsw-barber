@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { getDayBookings } from "../../_actions/getDayBookings";
 
 interface IBookingMenuProps {
-  service: Service;
+  services: Service[];
   barbershop: Barbershop;
   hour: string | undefined;
   setHour: Dispatch<SetStateAction<string | undefined>>;
@@ -31,7 +31,7 @@ interface IBookingMenuProps {
 }
 
 const BookingMenu = ({
-  service,
+  services,
   barbershop,
   hour,
   setHour,
@@ -101,12 +101,14 @@ const BookingMenu = ({
     setMinutes(setHours(date, hourSplitted), minuteSplitted);
 
   const saveBookingAndNotify = async (newDateFormatted: Date) => {
-    await saveBooking({
-      barbershopId: barbershop.id,
-      serviceId: service.id,
-      userId: (data?.user as any).id,
-      date: newDateFormatted,
-    });
+    for (const service of services) {
+      await saveBooking({
+        barbershopId: barbershop.id,
+        serviceId: service.id,
+        userId: (data?.user as any).id,
+        date: newDateFormatted,
+      });
+    }
     setSheetIsOpen(false);
     setHour(undefined);
     setDate(undefined);
@@ -150,7 +152,7 @@ const BookingMenu = ({
       {date && <TimeListComponent {...{ hour, timeList, handleHourClick }} />}
 
       <div className="py-6 px-5 border-t border-solid border-secondary">
-        <ServiceCardDetails service={service} date={date} hour={hour} barbershop={barbershop} />
+        <ServiceCardDetails {...{ services, date, hour, barbershop }} />
       </div>
 
       <SheetFooter className="px-5">
