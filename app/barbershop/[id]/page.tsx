@@ -3,7 +3,7 @@ import BarberShopInfos from "./_components/BarberShopInfos";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/_lib/auth";
 import { redirect } from "next/navigation";
-import BarbershopServiceCardList from "./_components/_ServiceCardComponents/BarbershopServiceCardList";
+import BarbershopServices from "./_components/_ServiceComponent/BarbershopServices";
 
 interface IBarberShopDetailsPageProps {
   params: {
@@ -28,7 +28,7 @@ const BarberShopDetailsPage = async ({ params }: IBarberShopDetailsPageProps) =>
     <div>
       <BarberShopInfos barbershopData={barberShop} />
 
-      <BarbershopServiceCardList barbershopData={barberShop} session={session!} />
+      <BarbershopServices barbershopData={barberShop} session={session!} />
     </div>
   );
 };

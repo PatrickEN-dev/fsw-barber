@@ -4,13 +4,14 @@ import { Button } from "@/app/_components/ui/button";
 import { Barbershop } from "@prisma/client";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IBarberShopInfosProps {
   barbershopData?: Barbershop;
 }
 
 const BarberShopInfos = ({ barbershopData }: IBarberShopInfosProps) => {
+  const { replace } = useRouter();
   return (
     <section>
       <div className="h-[250px] w-full relative">
@@ -18,7 +19,7 @@ const BarberShopInfos = ({ barbershopData }: IBarberShopInfosProps) => {
           type="button"
           size={"icon"}
           variant={"outline"}
-          onClick={() => <Link replace href={"/"} />}
+          onClick={() => replace("/")}
           className="z-50 absolute top-4 left-4"
         >
           <ChevronLeftIcon />

@@ -5,38 +5,25 @@ import { Sheet } from "@/app/_components/ui/sheet";
 import { formatPrice } from "@/app/_utils/formatPrices";
 import { Barbershop, Service } from "@prisma/client";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
-import BookingMenu from "../_BookingMenu/BookingMenu";
+import { useState } from "react";
+import BookingMenu from "../../_BookingMenu/BookingMenu";
 import { Checkbox } from "@/app/_components/ui/checkbox";
+import useBarbershopServices from "../../_ServiceComponent/model";
 
 interface IServiceCardProps {
   service: Service;
   barbershop: Barbershop;
-  sheetIsOpen: boolean;
-  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
-  onServiceSelect: (selectedService: Service | undefined, currentService: Service) => void;
-  selectedServices: Service[];
 }
 
-const BarberShopServiceCard = ({
-  service,
-  barbershop,
-  sheetIsOpen,
-  setSheetIsOpen,
-  onServiceSelect,
-  selectedServices,
-}: IServiceCardProps) => {
+const BarberShopServiceCard = ({ service, barbershop }: IServiceCardProps) => {
+  const { sheetIsOpen, setSheetIsOpen, selectedServices, handleCheckboxChange } =
+    useBarbershopServices();
+
   const newDate = new Date();
   const [date, setDate] = useState<Date | undefined>(newDate);
   const [hour, setHour] = useState<string | undefined>("");
 
-  const handleCheckboxChange = (isChecked: boolean) => {
-    if (isChecked) {
-      onServiceSelect(service, service);
-    } else {
-      onServiceSelect(undefined, service);
-    }
-  };
+  console.log("selectedServices", selectedServices);
 
   return (
     <Card>
@@ -60,17 +47,19 @@ const BarberShopServiceCard = ({
               <p className="text-primary text-sm font-bold">{formatPrice(String(service.price))}</p>
 
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
-                <Checkbox onCheckedChange={handleCheckboxChange} />
+                <Checkbox
+                  onCheckedChange={(isChecked: boolean) => handleCheckboxChange(isChecked, service)}
+                />
+
                 <BookingMenu
-                  services={selectedServices}
-                  barbershop={barbershop}
-                  hour={hour}
-                  setHour={setHour}
-                  date={date}
-                  setDate={setDate}
-                  newDate={newDate}
-                  sheetIsOpen={sheetIsOpen}
-                  setSheetIsOpen={setSheetIsOpen}
+                  {...{
+                    barbershop,
+                    hour,
+                    setHour,
+                    date,
+                    setDate,
+                    newDate,
+                  }}
                 />
               </Sheet>
             </section>

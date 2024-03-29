@@ -17,33 +17,22 @@ import { toast } from "sonner";
 import { ptBR } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { getDayBookings } from "../../_actions/getDayBookings";
+import useBarbershopServices from "../_ServiceComponent/model";
 
 interface IBookingMenuProps {
-  services: Service[];
   barbershop: Barbershop;
   hour: string | undefined;
   setHour: Dispatch<SetStateAction<string | undefined>>;
   date: Date | undefined;
   setDate: Dispatch<SetStateAction<Date | undefined>>;
   newDate: Date;
-  sheetIsOpen: boolean;
-  setSheetIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const BookingMenu = ({
-  services,
-  barbershop,
-  hour,
-  setHour,
-  date,
-  setDate,
-  newDate,
-  sheetIsOpen,
-  setSheetIsOpen,
-}: IBookingMenuProps) => {
+const BookingMenu = ({ barbershop, hour, setHour, date, setDate, newDate }: IBookingMenuProps) => {
   const { push } = useRouter();
   const { data } = useSession();
   const { isLoading, setIsLoading } = useLoading();
+  const { setSheetIsOpen, sheetIsOpen, selectedServices } = useBarbershopServices();
   const [dayBookings, setDayBookings] = useState<Booking[]>([]);
   const handleHourClick = (time: string) => setHour(time);
 
@@ -101,7 +90,7 @@ const BookingMenu = ({
     setMinutes(setHours(date, hourSplitted), minuteSplitted);
 
   const saveBookingAndNotify = async (newDateFormatted: Date) => {
-    for (const service of services) {
+    for (const service of selectedServices) {
       await saveBooking({
         barbershopId: barbershop.id,
         serviceId: service.id,
@@ -152,7 +141,7 @@ const BookingMenu = ({
       {date && <TimeListComponent {...{ hour, timeList, handleHourClick }} />}
 
       <div className="py-6 px-5 border-t border-solid border-secondary">
-        <ServiceCardDetails {...{ services, date, hour, barbershop }} />
+        <ServiceCardDetails {...{ date, hour, barbershop }} />
       </div>
 
       <SheetFooter className="px-5">
