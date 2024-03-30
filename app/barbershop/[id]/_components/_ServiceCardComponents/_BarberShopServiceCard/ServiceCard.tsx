@@ -9,6 +9,7 @@ import { useState } from "react";
 import BookingMenu from "../../_BookingMenu/BookingMenu";
 import { Checkbox } from "@/app/_components/ui/checkbox";
 import useBarbershopServices from "../../_ServiceComponent/model";
+import { useDateStore, useHourStore } from "../../_hooks/useDate";
 
 interface IServiceCardProps {
   service: Service;
@@ -16,14 +17,7 @@ interface IServiceCardProps {
 }
 
 const BarberShopServiceCard = ({ service, barbershop }: IServiceCardProps) => {
-  const { sheetIsOpen, setSheetIsOpen, selectedServices, handleCheckboxChange } =
-    useBarbershopServices();
-
-  const newDate = new Date();
-  const [date, setDate] = useState<Date | undefined>(newDate);
-  const [hour, setHour] = useState<string | undefined>("");
-
-  console.log("selectedServices", selectedServices);
+  const { sheetIsOpen, setSheetIsOpen, handleCheckboxChange } = useBarbershopServices();
 
   return (
     <Card>
@@ -51,16 +45,7 @@ const BarberShopServiceCard = ({ service, barbershop }: IServiceCardProps) => {
                   onCheckedChange={(isChecked: boolean) => handleCheckboxChange(isChecked, service)}
                 />
 
-                <BookingMenu
-                  {...{
-                    barbershop,
-                    hour,
-                    setHour,
-                    date,
-                    setDate,
-                    newDate,
-                  }}
-                />
+                <BookingMenu {...{ barbershop }} />
               </Sheet>
             </section>
           </div>

@@ -18,26 +18,33 @@ import { ptBR } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { getDayBookings } from "../../_actions/getDayBookings";
 import useBarbershopServices from "../_ServiceComponent/model";
+import useBookingMenu from "./_hooks/bookingMenuHook";
 
 interface IBookingMenuProps {
   barbershop: Barbershop;
-  hour: string | undefined;
-  setHour: Dispatch<SetStateAction<string | undefined>>;
-  date: Date | undefined;
-  setDate: Dispatch<SetStateAction<Date | undefined>>;
-  newDate: Date;
+  // hour: string | undefined;
+  // setHour: Dispatch<SetStateAction<string | undefined>>;
+  // date: Date | undefined;
+  // setDate: Dispatch<SetStateAction<Date | undefined>>;
+  // newDate: Date;
 }
 
-const BookingMenu = ({ barbershop, hour, setHour, date, setDate, newDate }: IBookingMenuProps) => {
+const BookingMenu = ({ barbershop }: IBookingMenuProps) => {
   const { push } = useRouter();
   const { data } = useSession();
   const { isLoading, setIsLoading } = useLoading();
-  const { setSheetIsOpen, sheetIsOpen, selectedServices } = useBarbershopServices();
-  const [dayBookings, setDayBookings] = useState<Booking[]>([]);
-  const handleHourClick = (time: string) => setHour(time);
 
-  const hourSplitted = hour ? Number(hour?.split(":")[0]) : 0;
-  const minuteSplitted = hour ? Number(hour?.split(":")[1]) : 0;
+  const { setSheetIsOpen, sheetIsOpen, selectedServices, hour, setHour, date, setDate } =
+    useBarbershopServices();
+
+  const {
+    timeList,
+    validateBookingData,
+    formatBookingDate,
+    setDayBookings,
+    handleHourClick,
+    handleDateClick,
+  } = useBookingMenu();
 
   useEffect(() => {
     if (!date) return console.error("Theren't date on useEffect getDayBookings");
@@ -49,45 +56,7 @@ const BookingMenu = ({ barbershop, hour, setHour, date, setDate, newDate }: IBoo
     };
 
     refreshAvailableHours();
-  }, [date, barbershop.id]);
-
-  const handleDateClick = (date: Date | undefined) => {
-    setDate(date);
-    setHour(undefined);
-  };
-
-  const timeList = useMemo(
-    () =>
-      date
-        ? generateDayTimeList(date).filter((time) => {
-            const hourSplitted = time ? Number(time?.split(":")[0]) : 0;
-            const minuteSplitted = time ? Number(time?.split(":")[1]) : 0;
-
-            const booking = dayBookings.find((booking) => {
-              const bookingHour = booking.date.getHours();
-              const bookingMinutes = booking.date.getMinutes();
-
-              return bookingHour === hourSplitted && bookingMinutes === minuteSplitted;
-            });
-
-            if (!booking) return true;
-
-            return false;
-          })
-        : [],
-    [date, dayBookings]
-  );
-
-  const validateBookingData = () => {
-    if (!hour || !date || !data?.user) {
-      console.error("ERROR: handleBookingSubmit values not found");
-      return false;
-    }
-    return true;
-  };
-
-  const formatBookingDate = (date: Date, hour: string): Date =>
-    setMinutes(setHours(date, hourSplitted), minuteSplitted);
+  }, [date, barbershop.id, setDayBookings]);
 
   const saveBookingAndNotify = async (newDateFormatted: Date) => {
     for (const service of selectedServices) {
@@ -135,7 +104,7 @@ const BookingMenu = ({ barbershop, hour, setHour, date, setDate, newDate }: IBoo
       </SheetHeader>
 
       <div className="py-1">
-        <CalendarComponent {...{ date, setDate, newDate, handleDateClick }} />
+        <CalendarComponent {...{ date, setDate, handleDateClick }} />
       </div>
 
       {date && <TimeListComponent {...{ hour, timeList, handleHourClick }} />}
