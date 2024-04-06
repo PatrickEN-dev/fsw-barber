@@ -2,14 +2,13 @@
 
 import CalendarComponent from "@/app/_components/CalendarComponent";
 import { SheetContent, SheetFooter, SheetHeader, SheetTitle } from "@/app/_components/ui/sheet";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-import { generateDayTimeList } from "../../_helpers/hours";
+import { useEffect } from "react";
 import TimeListComponent from "./TimeListComponent";
-import { Barbershop, Booking, Service } from "@prisma/client";
+import { Barbershop } from "@prisma/client";
 import { Button } from "@/app/_components/ui/button";
 import ServiceCardDetails from "./ServiceCardDetails";
 import { useSession } from "next-auth/react";
-import { format, setHours, setMinutes } from "date-fns";
+import { format } from "date-fns";
 import { saveBooking } from "../../_actions/saveBooking";
 import { useLoading } from "@/app/_providers/loading";
 import { Loader2 } from "lucide-react";

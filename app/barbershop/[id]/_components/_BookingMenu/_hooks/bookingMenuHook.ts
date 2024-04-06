@@ -1,23 +1,28 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { getDayBookings } from "../../../_actions/getDayBookings";
+import { useMemo } from "react";
 import useBarbershopServices from "../../_ServiceComponent/model";
 import { useLoading } from "@/app/_providers/loading";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Booking } from "@prisma/client";
 import { generateDayTimeList } from "../../../_helpers/hours";
-import { format, setHours, setMinutes } from "date-fns";
-import { saveBooking } from "../../../_actions/saveBooking";
-import { toast } from "sonner";
-import { ptBR } from "date-fns/locale";
+import { setHours, setMinutes } from "date-fns";
 import { create } from "zustand";
 
 interface IDayBookingsStore {
   dayBookings: Booking[];
   setDayBookings: (dayBookings: Booking[]) => void;
 }
+
+interface IHourStore {
+  hour: string | undefined;
+  setHour: (hour: string | undefined) => void;
+}
+
+export const useHourStoreBookingMenu = create<IHourStore>((set) => ({
+  hour: undefined,
+  setHour: (hour: string | undefined) => set(() => ({ hour })),
+}));
 
 export const dayBookingsStore = create<IDayBookingsStore>((set) => ({
   dayBookings: [],
