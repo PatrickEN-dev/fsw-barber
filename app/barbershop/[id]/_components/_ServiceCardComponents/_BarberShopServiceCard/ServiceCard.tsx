@@ -1,29 +1,23 @@
 "use client";
 
-import SheetTriggerButton from "@/app/_components/SheetTriggerButton";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Sheet } from "@/app/_components/ui/sheet";
 import { formatPrice } from "@/app/_utils/formatPrices";
-import verifyToSignIn from "@/app/_utils/verifyAuthentication";
 import { Barbershop, Service } from "@prisma/client";
 import Image from "next/image";
-import BookingMenu from "./_BookingMenu/BookingMenu";
 import { useState } from "react";
+import BookingMenu from "../../_BookingMenu/BookingMenu";
+import { Checkbox } from "@/app/_components/ui/checkbox";
+import useBarbershopServices from "../../_ServiceComponent/model";
+import { useDateStore, useHourStore } from "../../_hooks/useDate";
 
 interface IServiceCardProps {
   service: Service;
-  isAuthenticated: boolean;
   barbershop: Barbershop;
 }
 
-const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServiceCardProps) => {
-  const newDate = new Date();
-  const [date, setDate] = useState<Date | undefined>(newDate);
-  const [hour, setHour] = useState<string | undefined>("");
-  const [sheetIsOpen, setSheetIsOpen] = useState(false);
-
-  const handleVerifyToSignInClick = async () =>
-    await verifyToSignIn({ value: isAuthenticated, signInValue: "google" });
+const BarberShopServiceCard = ({ service, barbershop }: IServiceCardProps) => {
+  const { sheetIsOpen, setSheetIsOpen, handleCheckboxChange } = useBarbershopServices();
 
   return (
     <Card>
@@ -35,6 +29,7 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
               src={service.imageUrl}
               fill
               alt={service.name}
+              sizes="100vw"
             />
           </div>
 
@@ -42,31 +37,17 @@ const BarberShopServiceCard = ({ service, isAuthenticated, barbershop }: IServic
             <h2 className="font-bold">{service.name}</h2>
             <p className="text-sm text-gray-400">{service.description}</p>
 
-            <div className="flex items-center justify-between mt-3">
+            <section className="flex items-center justify-between mt-3">
               <p className="text-primary text-sm font-bold">{formatPrice(String(service.price))}</p>
 
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
-                <SheetTriggerButton
-                  buttonContent="Reservar"
-                  onClick={handleVerifyToSignInClick}
-                  variant="secondary"
+                <Checkbox
+                  onCheckedChange={(isChecked: boolean) => handleCheckboxChange(isChecked, service)}
                 />
 
-                <BookingMenu
-                  {...{
-                    service,
-                    barbershop,
-                    hour,
-                    setHour,
-                    date,
-                    setDate,
-                    newDate,
-                    sheetIsOpen,
-                    setSheetIsOpen,
-                  }}
-                />
+                <BookingMenu {...{ barbershop }} />
               </Sheet>
-            </div>
+            </section>
           </div>
         </div>
       </CardContent>

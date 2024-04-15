@@ -1,26 +1,39 @@
+"use client";
+
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { formatPrice } from "@/app/_utils/formatPrices";
-import { Barbershop, Service } from "@prisma/client";
+import { Barbershop } from "@prisma/client";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import useBarbershopServices from "../_ServiceComponent/model";
 
 interface IServiceCardDetails {
-  service: Service;
   date: Date | undefined;
   hour: string | undefined;
   barbershop: Barbershop;
 }
 
-const ServiceCardDetails = ({ service, date, hour, barbershop }: IServiceCardDetails) => {
+const ServiceCardDetails = ({ date, hour, barbershop }: IServiceCardDetails) => {
+  const { selectedServices } = useBarbershopServices();
+
   const formattedDate = date ? format(date, "dd 'de' MMMM", { locale: ptBR }) : undefined;
+
+  const totalServicePrice = selectedServices.reduce(
+    (total, service) => total + Number(service.price),
+    0
+  );
 
   return (
     <Card>
       <CardContent className="p-3 flex flex-col">
         <section className="flex flex-col mb-2">
           <div className="flex justify-between">
-            <h2 className="font-bold">{service.name}</h2>
-            <h3 className="font-bold">{formatPrice(String(service.price))}</h3>
+            <h2 className="font-bold">
+              {selectedServices.map((service) => (
+                <div key={service.id}>{service.name}</div>
+              ))}
+            </h2>
+            <h3 className="font-bold">{formatPrice(String(totalServicePrice))}</h3>
           </div>
 
           {date && (
