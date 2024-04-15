@@ -1,9 +1,11 @@
 "use client";
 
 import verifyToSignIn from "@/app/_utils/verifyAuthentication";
-import { Service, User } from "@prisma/client";
+import { Service } from "@prisma/client";
 import { Session } from "next-auth";
 import { create } from "zustand";
+import { useDateStore, useHourStore } from "../_hooks/useDate";
+import { findUniqueBarberShop } from "@/app/_actions/barberShop";
 
 interface IStore {
   sheetIsOpen: boolean;
@@ -32,13 +34,20 @@ const useSelectedServices = create<IServiceStore>((set) => ({
 const useBarbershopServices = () => {
   const { sheetIsOpen, setSheetIsOpen } = useStore();
   const { selectedServices, setSelectedServices } = useSelectedServices();
+  const { hour, setHour } = useHourStore();
+  const { date, setDate } = useDateStore();
 
   const handleVerifyToSignInClick = async (session: Session): Promise<void> => {
     await verifyToSignIn({ value: !!session?.user, signInValue: "google" });
   };
 
+  const findUniqueBarberShopInfo = async (params: any) => {
+    const result = await findUniqueBarberShop({ id: params.id });
+    return result;
+  };
+
   const openSheetAndVerifyUser = async (session: any) => {
-    // await handleVerifyToSignInClick(session?.user);
+    if (!session.user) await handleVerifyToSignInClick(session?.user);
     setSheetIsOpen(true);
   };
 
@@ -61,6 +70,7 @@ const useBarbershopServices = () => {
   };
 
   return {
+    findUniqueBarberShopInfo,
     sheetIsOpen,
     setSheetIsOpen,
     selectedServices,
@@ -68,6 +78,10 @@ const useBarbershopServices = () => {
     handleServiceSelect,
     openSheetAndVerifyUser,
     handleCheckboxChange,
+    hour,
+    setHour,
+    date,
+    setDate,
   };
 };
 

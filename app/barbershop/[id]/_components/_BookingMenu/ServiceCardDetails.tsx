@@ -18,8 +18,6 @@ const ServiceCardDetails = ({ date, hour, barbershop }: IServiceCardDetails) => 
 
   const formattedDate = date ? format(date, "dd 'de' MMMM", { locale: ptBR }) : undefined;
 
-  console.log("selectedServices on serviceDetails", selectedServices);
-
   const totalServicePrice = selectedServices.reduce(
     (total, service) => total + Number(service.price),
     0
