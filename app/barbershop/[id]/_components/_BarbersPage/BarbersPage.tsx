@@ -1,6 +1,6 @@
 import BarbersPageList from "./_components/_BarbersPageList";
 
-const BArbersPage = async () => {
+const BarbersPage = async () => {
   return (
     <div>
       <BarbersPageList />
@@ -8,4 +8,4 @@ const BArbersPage = async () => {
   );
 };
 
-export default BArbersPage;
+export default BarbersPage;
